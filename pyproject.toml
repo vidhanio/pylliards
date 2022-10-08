@@ -1,0 +1,14 @@
+[tool.poetry]
+name = "pylliards"
+version = "0.1.0"
+description = ""
+authors = ["Vidhan Bhatt <me@vidhan.io>", "Woze Parrot <wozeparrot@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
