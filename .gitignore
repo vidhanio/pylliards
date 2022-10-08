@@ -199,3 +199,7 @@ Temporary Items
 
 # Built Visual Studio Code Extensions
 *.vsix
+
+# nix
+result
+.direnv/
