@@ -73,6 +73,17 @@ class Vector2(NamedTuple):
             self.x * math.sin(angle) + self.y * math.cos(angle),
         )
 
+    def normalize(self) -> "Vector2":
+        """
+        Normalize the vector.
+
+        Returns:
+            The normalized vector.
+        """
+        if (magnitude := abs(self)) == 0:
+            return Vector2(0, 0)
+        return self / magnitude
+
 
 class Ball:
     """A ball."""

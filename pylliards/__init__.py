@@ -1,7 +1,8 @@
 """The main executable."""
 
 import time
-from engine.engine import Engine
+import random
+from engine import Engine
 from rendering import renderer
 
 
@@ -17,6 +18,8 @@ def main():
             key = get_input()
             if key == ord("q"):
                 break
+            elif key == ord("p"):
+                engine.hit_ball(0, 1000, random.randint(-60, 60))
 
             engine.tick()
 
