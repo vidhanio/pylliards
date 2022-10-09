@@ -34,6 +34,12 @@ class Vector2(NamedTuple):
         """
         return self + (-other)
 
+    def __mul__(self, other: float) -> "Vector2":
+        return Vector2(self.x * other, self.y * other)
+
+    def __truediv__(self, other: float) -> "Vector2":
+        return Vector2(self.x / other, self.y / other)
+
     def __neg__(self) -> "Vector2":
         """
         Negate a vector.
@@ -72,19 +78,25 @@ class Ball:
     """A ball."""
 
     id: int
+
     mass: float
     mu_kinetic: float
     mu_static: float
+
     position: Vector2
     velocity: Vector2
     acceleration: Vector2
     impulse: Vector2
 
+    last_position: Vector2
+    last_velocity: Vector2
+    last_acceleration: Vector2
+
     def __init__(
         self,
         id_: int,
         pos: tuple[float, float],
-        mass: float = 1,
+        mass: float = 1.0,
         mu_kinetic: float = 0.01,
         mu_static: float = 0.2,
     ) -> None:
@@ -108,3 +120,7 @@ class Ball:
         self.velocity = Vector2(0, 0)
         self.acceleration = Vector2(0, 0)
         self.impulse = Vector2(0, 0)
+
+        self.last_position = Vector2(*pos)
+        self.last_velocity = Vector2(0, 0)
+        self.last_acceleration = Vector2(0, 0)

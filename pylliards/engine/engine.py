@@ -1,7 +1,9 @@
 """Logic related to the engine."""
 
-from engine.ball import Ball
+import math
+from engine.ball import Ball, Vector2
 
+DELTA_TIME = 1 / 60
 
 class Engine:
     """The game engine."""
@@ -14,7 +16,16 @@ class Engine:
 
     def tick(self) -> None:
         """Tick the engine."""
-        ...
+        for ball in self.balls:
+            ball.last_position = ball.position
+            ball.last_velocity = ball.velocity
+            ball.last_acceleration = ball.acceleration
+
+            ball.position = ball.last_position + ball.last_velocity * DELTA_TIME + ball.last_acceleration * ((DELTA_TIME ** 2) / 2)
+            ball.acceleration = ball.impulse / ball.mass
+            ball.velocity = ball.last_velocity + (ball.last_acceleration + ball.acceleration) * DELTA_TIME
+
+            ball.impulse = Vector2(0, 0)
 
     def get_balls(self) -> list["Ball"]:
         """
@@ -35,7 +46,7 @@ class Engine:
         """
         self.balls.append(Ball(len(self.balls), (x, y)))
 
-    def hit_ball(self, id_: int, power: float, angle: float) -> None:
+    def hit_ball(self, id: int, power: float, angle: float) -> None:
         """
         Hit a ball.
 
@@ -44,4 +55,7 @@ class Engine:
             power: The power of the hit.
             angle: The angle of the hit.
         """
-        ...
+        self.balls[id].impulse = Vector2(
+            power * math.cos(math.radians(angle)),
+            -power * math.sin(math.radians(angle))
+        )

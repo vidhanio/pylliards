@@ -18,7 +18,7 @@ class DummyEngine:
     def tick(self) -> None:
         """Tick the engine."""
         self.ball1.position += Vector2(1, 1)
-        if self.ball1.position.y > 10:
+        if self.ball1.position.y > 60:
             self.ball1.position = Vector2(0, 0)
 
     def get_balls(self) -> list["Ball"]:
