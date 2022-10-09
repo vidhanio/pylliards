@@ -11,6 +11,12 @@ BOTTOM_HALF = "▄"
 
 
 def pos_to_char(pos: Vector2) -> tuple[int, int, Literal["▀"] | Literal["▄"]]:
+    """
+    Convert position to the on-screen coordinates and the character to draw
+
+    :return: (y, x, char)
+    """
+
     y = pos.y / 2
 
     top = abs((y % 1) - 0) < abs((y % 1) - 1)
@@ -22,6 +28,12 @@ def pos_to_char(pos: Vector2) -> tuple[int, int, Literal["▀"] | Literal["▄"]
 def renderer() -> Generator[
     tuple[Callable[[list["Ball"]], None], Callable[[], int]], None, None
 ]:
+    """
+    Context manager for the curses renderer
+
+    :yield: (render, get_input)
+    """
+
     stdscr = curses.initscr()
     curses.noecho()
     curses.cbreak()
