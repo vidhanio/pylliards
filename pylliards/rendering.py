@@ -4,8 +4,7 @@
 import curses
 from contextlib import contextmanager
 from typing import Callable, Generator, Literal
-
-from pylliards.engine.ball import Ball, Vector2
+from pylliards import Ball, Vector2
 
 
 def pos_to_char(pos: Vector2) -> tuple[int, int, Literal["▀"] | Literal["▄"]]:

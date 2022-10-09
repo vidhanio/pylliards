@@ -1,11 +1,12 @@
 """The core logic of the game engine."""
 
 import math
-from pylliards.engine.ball import Ball, Vector2
+from engine.ball import Ball, Vector2
 
-__all__ = ["Ball"]
+__all__ = ["Engine", "Ball", "Vector2"]
 
 DELTA_TIME = 1 / 60
+
 
 class Engine:
     """The game engine."""
@@ -23,9 +24,18 @@ class Engine:
             ball.last_velocity = ball.velocity
             ball.last_acceleration = ball.acceleration
 
-            ball.position = ball.last_position + ball.last_velocity * DELTA_TIME + ball.last_acceleration * ((DELTA_TIME ** 2) / 2)
-            ball.acceleration = ball.impulse / ball.mass - (ball.last_velocity.normalize() * 981 * ball.mass * ball.mu_kinetic)
-            ball.velocity = ball.last_velocity + (ball.last_acceleration + ball.acceleration) * DELTA_TIME
+            ball.position = (
+                ball.last_position
+                + ball.last_velocity * DELTA_TIME
+                + ball.last_acceleration * ((DELTA_TIME**2) / 2)
+            )
+            ball.acceleration = ball.impulse / ball.mass - (
+                ball.last_velocity.normalize() * 981 * ball.mass * ball.mu_kinetic
+            )
+            ball.velocity = (
+                ball.last_velocity
+                + (ball.last_acceleration + ball.acceleration) * DELTA_TIME
+            )
 
             ball.impulse = Vector2(0, 0)
 
@@ -59,5 +69,5 @@ class Engine:
         """
         self.balls[id].impulse = Vector2(
             power * math.cos(math.radians(angle)),
-            -power * math.sin(math.radians(angle))
+            -power * math.sin(math.radians(angle)),
         )
