@@ -8,10 +8,10 @@ from rendering import renderer
 
 def main():
     """Run the main loop."""
-    engine = Engine()
-    engine.place_ball(20, 100)
+    e = Engine()
+    e.place_ball(20, 100)
 
-    engine.hit_ball(0, 1600, 60)
+    e.hit_ball(0, 1600, 60)
 
     with renderer() as (render, get_input):
         while True:
@@ -19,11 +19,11 @@ def main():
             if key == ord("q"):
                 break
             elif key == ord("p"):
-                engine.hit_ball(0, 1000, random.randint(-60, 60))
+                e.hit_ball(0, 1000, random.randint(-60, 60))
 
-            engine.tick()
+            e.tick()
 
-            render(engine.get_balls())
+            render(e.get_balls())
 
             time.sleep(1 / 60)
 
