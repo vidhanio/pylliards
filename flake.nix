@@ -25,7 +25,7 @@
 
         devShell = pkgs.mkShell {
           buildInputs = with pkgs; [
-            (python3.withPackages (ps: with ps; [ poetry ]))
+            (python3.withPackages (ps: with ps; [ poetry pycodestyle pydocstyle ]))
           ];
         };
       }
