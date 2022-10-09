@@ -30,12 +30,25 @@ class Engine:
                 + ball.last_acceleration * ((DELTA_TIME**2) / 2)
             )
             ball.acceleration = ball.impulse / ball.mass - (
-                ball.last_velocity.normalize() * 981 * ball.mass * ball.mu_kinetic
+                ball.last_velocity.normalize() * 9.81 * ball.mass * ball.mu_kinetic
             )
             ball.velocity = (
                 ball.last_velocity
                 + (ball.last_acceleration + ball.acceleration) * DELTA_TIME
             )
+
+            if ball.position.x < 0:
+                ball.position = Vector2(0, ball.position.y)
+                ball.velocity = Vector2(-ball.velocity.x, ball.velocity.y)
+            elif ball.position.x > 1:
+                ball.position = Vector2(1, ball.position.y)
+                ball.velocity = Vector2(-ball.velocity.x, ball.velocity.y)
+            if ball.position.y < 0:
+                ball.position = Vector2(ball.position.x, 0)
+                ball.velocity = Vector2(ball.velocity.x, -ball.velocity.y)
+            elif ball.position.y > 1:
+                ball.position = Vector2(ball.position.x, 1)
+                ball.velocity = Vector2(ball.velocity.x, -ball.velocity.y)
 
             ball.impulse = Vector2(0, 0)
 

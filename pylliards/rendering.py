@@ -2,22 +2,24 @@
 # pyright: reportPrivateUsage=false
 
 import curses
+import sys
 from contextlib import contextmanager
 from typing import Callable, Generator, Literal
 from pylliards import Ball, Vector2
 
 
-def pos_to_char(pos: Vector2) -> tuple[int, int, Literal["▀"] | Literal["▄"]]:
+def pos_to_screen(size: tuple[int, int], pos: Vector2) -> tuple[int, int, Literal["▀"] | Literal["▄"]]:
     """
     Convert position to the on-screen coordinates and the character to draw.
 
-    :return: (y, x, char)
+    Returns:
+        (y, x, char)
     """
-    pos_y = pos.y / 2
+    pos_y = (pos.y / 2) * size[0] * (2 - sys.float_info.epsilon)
 
     top = abs((pos_y % 1) - 0) < abs((pos_y % 1) - 1)
 
-    return int(pos_y), int(pos.x), "▀" if top else "▄"
+    return int(pos_y), int(pos.x * size[0] * (2 - sys.float_info.epsilon)), "▀" if top else "▄"
 
 
 @contextmanager
@@ -38,11 +40,13 @@ def renderer() -> Generator[
     stdscr.nodelay(True)
     stdscr.clear()
 
+    size = stdscr.getmaxyx()
+
     def render(balls: list["Ball"]):
         stdscr.clear()
 
         for ball in balls:
-            stdscr.addstr(*pos_to_char(ball.position))
+            stdscr.addstr(*pos_to_screen(size, ball.position))
 
         stdscr.refresh()
 
