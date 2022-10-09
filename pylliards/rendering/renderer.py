@@ -37,6 +37,7 @@ def renderer() -> Generator[
     stdscr = curses.initscr()
     curses.noecho()
     curses.cbreak()
+    curses.curs_set(0)
     stdscr.keypad(True)
     stdscr.nodelay(True)
     stdscr.clear()
@@ -53,6 +54,7 @@ def renderer() -> Generator[
         yield render, stdscr.getch
     finally:
         curses.nocbreak()
+        curses.curs_set(1)
         stdscr.keypad(False)
         curses.echo()
         curses.endwin()
