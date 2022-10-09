@@ -19,6 +19,15 @@ class Vector2(NamedTuple):
 
 
 class Ball:
+    id: int
+    mass: float
+    mu_kinetic: float
+    mu_static: float
+    position: Vector2
+    velocity: Vector2
+    acceleration: Vector2
+    impulse: Vector2
+
     def __init__(
         self,
         id: int,
@@ -37,14 +46,14 @@ class Ball:
         :param mu_static: The static friction coefficient of the ball
         """
 
-        self.id: int = id
+        self.id = id
 
-        self.mass: float = mass
+        self.mass = mass
 
-        self.mu_kinetic: float = mu_kinetic
-        self.mu_static: float = mu_static
+        self.mu_kinetic = mu_kinetic
+        self.mu_static = mu_static
 
-        self.position: Vector2 = Vector2(*pos)
-        self.velocity: Vector2 = Vector2(0, 0)
-        self.acceleration: Vector2 = Vector2(0, 0)
-        self.impulse: Vector2 = Vector2(0, 0)
+        self.position = Vector2(*pos)
+        self.velocity = Vector2(0, 0)
+        self.acceleration = Vector2(0, 0)
+        self.impulse = Vector2(0, 0)
