@@ -1,9 +1,12 @@
+"""The main executable."""
+
 import time
 from engine.dummy import DummyEngine
-from rendering.renderer import renderer
+from rendering import renderer
 
 
-def main():
+def main() -> None:
+    """Run the main loop."""
     dummy = DummyEngine()
     with renderer() as (render, get_input):
         while True:
