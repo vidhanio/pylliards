@@ -1,4 +1,4 @@
-from pylliards.engine import Ball
+from engine.ball import Ball
 
 
 class Engine:

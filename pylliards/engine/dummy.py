@@ -10,8 +10,8 @@ class DummyEngine:
         self.ball2 = Ball(1, (5, 0))
 
     def tick(self) -> None:
-        self.ball1.position += Vector2(1, 0)
-        if self.ball1.position.x > 10:
+        self.ball1.position += Vector2(1, 1)
+        if self.ball1.position.y > 10:
             self.ball1.position = Vector2(0, 0)
 
     def get_balls(self) -> list["Ball"]:

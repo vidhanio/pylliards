@@ -1,6 +1,6 @@
 import time
-from pylliards.engine.dummy import DummyEngine
-from pylliards.rendering.renderer import renderer
+from engine.dummy import DummyEngine
+from rendering.renderer import renderer
 
 
 def main():
@@ -11,7 +11,7 @@ def main():
             dummy.tick()
 
             key = get_input()
-            if key == "q":
+            if key == ord("q"):
                 break
 
             time.sleep(1)

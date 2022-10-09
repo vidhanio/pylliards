@@ -1,69 +1,44 @@
 # pyright: reportPrivateUsage=false
 
-from contextlib import contextmanager
 import curses
-from _curses import _CursesWindow
-from types import TracebackType
-from typing import Callable, Generator, Type
-from pylliards.engine.ball import Ball
+from contextlib import contextmanager
+from typing import Callable, Generator, Literal
+
+from pylliards.engine.ball import Ball, Vector2
+
+TOP_HALF = "▀"
+BOTTOM_HALF = "▄"
 
 
-class Renderer:
-    stdscr: _CursesWindow
+def pos_to_char(pos: Vector2) -> tuple[int, int, Literal["▀"] | Literal["▄"]]:
+    y = pos.y / 2
 
-    def __init__(self):
-        self.stdscr = curses.initscr()
-        curses.noecho()
-        curses.cbreak()
-        self.stdscr.keypad(True)
-        self.stdscr.clear()
+    top = abs((y % 1) - 0) < abs((y % 1) - 1)
 
-    def render(self, balls: list["Ball"]):
-        self.stdscr.clear()
-
-        for ball in balls:
-            self.stdscr.addstr(int(ball.position.y), int(ball.position.x), str(ball.id))
-
-        self.stdscr.refresh()
-
-    def get_input(self) -> str:
-        return self.stdscr.getkey()
-
-    def __enter__(self) -> tuple[Callable[[list["Ball"]], None], Callable[[], str]]:
-        return self.render, self.get_input
-
-    def __exit__(
-        self,
-        exc_type: Type[BaseException] | None,
-        exc_value: BaseException | None,
-        traceback: TracebackType | None,
-    ) -> bool | None:
-        curses.nocbreak()
-        self.stdscr.keypad(False)
-        curses.echo()
-        curses.endwin()
+    return int(y), int(pos.x), TOP_HALF if top else BOTTOM_HALF
 
 
 @contextmanager
 def renderer() -> Generator[
-    tuple[Callable[[list["Ball"]], None], Callable[[], str]], None, None
+    tuple[Callable[[list["Ball"]], None], Callable[[], int]], None, None
 ]:
     stdscr = curses.initscr()
     curses.noecho()
     curses.cbreak()
     stdscr.keypad(True)
+    stdscr.nodelay(True)
     stdscr.clear()
 
     def render(balls: list["Ball"]):
         stdscr.clear()
 
         for ball in balls:
-            stdscr.addstr(int(ball.position.y), int(ball.position.x), str(ball.id))
+            stdscr.addstr(*pos_to_char(ball.position))
 
         stdscr.refresh()
 
     try:
-        yield render, stdscr.getkey
+        yield render, stdscr.getch
     finally:
         curses.nocbreak()
         stdscr.keypad(False)
