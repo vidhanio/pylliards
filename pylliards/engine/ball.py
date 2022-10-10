@@ -58,6 +58,15 @@ class Vector2(NamedTuple):
         """
         return (self.x**2 + self.y**2) ** 0.5
 
+    def mag2(self) -> float:
+        """
+        Get the magnitude squared of the vector.
+
+        Returns:
+            The magnitude squared of the vector.
+        """
+        return self.x**2 + self.y**2
+
     def rotate(self, angle: float) -> "Vector2":
         """
         Rotate the vector by an angle.
@@ -89,7 +98,9 @@ class Ball:
     """A ball."""
 
     id: int
+    color: int
 
+    radius: float
     mass: float
     mu_kinetic: float
     mu_static: float
@@ -103,10 +114,14 @@ class Ball:
     last_velocity: Vector2
     last_acceleration: Vector2
 
+    collide_cooldown: int
+
     def __init__(
         self,
-        id_: int,
+        id: int,
+        color: int,
         pos: tuple[float, float],
+        radius: float = 0.004,
         mass: float = 1.0,
         mu_kinetic: float = 0.01,
         mu_static: float = 0.2,
@@ -120,10 +135,11 @@ class Ball:
         :param mu_kinetic: The kinetic friction coefficient of the ball
         :param mu_static: The static friction coefficient of the ball
         """
-        self.id = id_
+        self.id = id
+        self.color = color
 
+        self.radius = radius
         self.mass = mass
-
         self.mu_kinetic = mu_kinetic
         self.mu_static = mu_static
 
@@ -135,3 +151,5 @@ class Ball:
         self.last_position = Vector2(*pos)
         self.last_velocity = Vector2(0, 0)
         self.last_acceleration = Vector2(0, 0)
+
+        self.collide_cooldown = 0

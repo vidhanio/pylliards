@@ -33,6 +33,7 @@ def renderer() -> Generator[
         (render, get_input)
     """
     stdscr = curses.initscr()
+    curses.start_color()
     curses.noecho()
     curses.cbreak()
     curses.curs_set(0)
@@ -46,7 +47,7 @@ def renderer() -> Generator[
         stdscr.clear()
 
         for ball in balls:
-            stdscr.addstr(*pos_to_screen(size, ball.position))
+            stdscr.addstr(*pos_to_screen(size, ball.position), curses.color_pair(ball.color))
 
         stdscr.refresh()
 
