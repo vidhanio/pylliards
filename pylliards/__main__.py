@@ -9,9 +9,12 @@ from pylliards.rendering import renderer
 def main():
     """Run the main loop."""
     e = Engine()
-    e.place_ball(0.2, 0.8)
 
-    e.hit_ball(0, 160, 60)
+    for i in range(100):
+        e.place_ball((i % 10) / 10, random.random())
+
+    for i in range(100):
+        e.hit_ball(i, random.randint(20, 40), random.randint(-180, 180))
 
     with renderer() as (render, get_input):
         while True:
@@ -19,7 +22,7 @@ def main():
             if key == ord("q"):
                 break
             elif key == ord("p"):
-                e.hit_ball(0, 10, random.randint(-180, 180))
+                e.hit_ball(random.randint(0, 99), random.randint(30, 60), random.randint(-180, 180))
 
             e.tick()
 
