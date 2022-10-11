@@ -6,6 +6,7 @@ from engine.ball import Ball, Vector2
 __all__ = ["Engine", "Ball", "Vector2"]
 
 DELTA_TIME = 1 / 60
+SQRT_2 = math.sqrt(2)
 
 
 class Engine:
@@ -40,25 +41,25 @@ class Engine:
             # check wall collision
             if ball.position.x < 0:
                 ball.position = Vector2(0, ball.position.y)
-                ball.velocity = Vector2(-ball.velocity.x, ball.velocity.y)
+                ball.velocity = Vector2(-ball.velocity.x, ball.velocity.y) / SQRT_2
             elif ball.position.x > 1:
                 ball.position = Vector2(1, ball.position.y)
-                ball.velocity = Vector2(-ball.velocity.x, ball.velocity.y)
+                ball.velocity = Vector2(-ball.velocity.x, ball.velocity.y) / SQRT_2
             if ball.position.y < 0:
                 ball.position = Vector2(ball.position.x, 0)
-                ball.velocity = Vector2(ball.velocity.x, -ball.velocity.y)
+                ball.velocity = Vector2(ball.velocity.x, -ball.velocity.y) / SQRT_2
             elif ball.position.y > 1:
                 ball.position = Vector2(ball.position.x, 1)
-                ball.velocity = Vector2(ball.velocity.x, -ball.velocity.y)
+                ball.velocity = Vector2(ball.velocity.x, -ball.velocity.y) / SQRT_2
 
             # check ball collision
             for other_ball in self.balls:
                 if ball.id != other_ball.id and ball.collide_cooldown == 0 and other_ball.collide_cooldown == 0:
                     if self.__check_collision(ball, other_ball):
-                        other_ball.velocity = -(other_ball.velocity - ball.last_velocity) / 2
-                        ball.velocity = -(ball.velocity - other_ball.last_velocity) / 2
-                        ball.collide_cooldown = 10
-                        other_ball.collide_cooldown = 10
+                        other_ball.velocity = -(other_ball.velocity - ball.last_velocity) / SQRT_2
+                        ball.velocity = -(ball.velocity - other_ball.last_velocity) / SQRT_2
+                        ball.collide_cooldown = 6
+                        other_ball.collide_cooldown = 6
 
             if ball.collide_cooldown > 0:
                 ball.collide_cooldown -= 1

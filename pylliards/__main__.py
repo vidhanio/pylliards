@@ -11,7 +11,7 @@ def main():
     e = Engine()
 
     for i in range(100):
-        e.place_ball((i % 10) / 10, random.random(), 0)
+        e.place_ball((i % 10) / 10, random.random(), random.randint(0, 7))
 
     for i in range(100):
         e.hit_ball(i, random.randint(20, 40), random.randint(-180, 180))
