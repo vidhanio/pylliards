@@ -10,10 +10,10 @@ def main():
     """Run the main loop."""
     e = Engine()
 
-    for i in range(100):
+    for i in range(200):
         e.place_ball((i % 10) / 10, random.random(), random.randint(0, 7))
 
-    for i in range(100):
+    for i in range(200):
         e.hit_ball(i, random.randint(20, 40), random.randint(-180, 180))
 
     with renderer() as (render, get_input):
