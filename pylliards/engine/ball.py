@@ -89,9 +89,7 @@ class Vector2(NamedTuple):
         Returns:
             The normalized vector.
         """
-        if (magnitude := abs(self)) == 0:
-            return Vector2(0, 0)
-        return self / magnitude
+        return Vector2(0, 0) if (magnitude := abs(self)) == 0 else self / magnitude
 
 
 class Ball:
@@ -121,7 +119,7 @@ class Ball:
         id: int,
         color: int,
         pos: tuple[float, float],
-        radius: float = 0.004,
+        radius: float = 0.003,
         mass: float = 1.0,
         mu_kinetic: float = 0.01,
         mu_static: float = 0.2,

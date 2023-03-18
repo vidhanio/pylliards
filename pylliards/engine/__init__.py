@@ -54,12 +54,11 @@ class Engine:
 
             # check ball collision
             for other_ball in self.balls:
-                if ball.id != other_ball.id and ball.collide_cooldown == 0 and other_ball.collide_cooldown == 0:
-                    if self.__check_collision(ball, other_ball):
-                        other_ball.velocity = (ball.last_velocity - other_ball.velocity) / SQRT_2
-                        ball.velocity = (other_ball.last_velocity - ball.velocity) / SQRT_2
-                        ball.collide_cooldown = 6
-                        other_ball.collide_cooldown = 6
+                if ball.id != other_ball.id and ball.collide_cooldown == 0 and other_ball.collide_cooldown == 0 and self.__check_collision(ball, other_ball):
+                    other_ball.velocity = (ball.last_velocity - other_ball.velocity) / SQRT_2
+                    ball.velocity = (other_ball.last_velocity - ball.velocity) / SQRT_2
+                    ball.collide_cooldown = 6
+                    other_ball.collide_cooldown = 6
 
             if ball.collide_cooldown > 0:
                 ball.collide_cooldown -= 1

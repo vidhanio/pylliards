@@ -3,6 +3,7 @@
 
 import curses
 import sys
+import math
 from contextlib import contextmanager
 from typing import Callable, Generator, Literal
 from pylliards import Ball, Vector2
@@ -20,6 +21,28 @@ def pos_to_screen(size: tuple[int, int], pos: Vector2) -> tuple[int, int, Litera
     top = abs((pos_y % 1) - 0) < abs((pos_y % 1) - 1)
 
     return int(pos_y), int(pos.x * size[0] * (2 - sys.float_info.epsilon)), "▀" if top else "▄"
+
+
+def draw_ball(screen, ball: Ball) -> None:
+    """
+    Draw a ball.
+
+    Args:
+        screen: The screen to draw on.
+        ball: The ball to draw.
+    """
+
+    radius = ball.radius
+
+    # draw all pixels in radius
+    y = -radius
+    x = -radius
+    while y <= radius:
+        while x <= radius:
+            if ball.position.y + y > 0 and ball.position.x + x > 0 and ball.position.y + y < 1 and ball.position.x + x < 1:
+                screen.addstr(*pos_to_screen(screen.getmaxyx(), Vector2(ball.position.x + x, ball.position.y + y)), curses.color_pair(ball.color))
+            x += 0.5 / screen.getmaxyx()[0]
+        y += 0.5 / screen.getmaxyx()[0]
 
 
 @contextmanager
@@ -56,7 +79,8 @@ def renderer() -> Generator[
         stdscr.clear()
 
         for ball in balls:
-            stdscr.addstr(*pos_to_screen(size, ball.position), curses.color_pair(ball.color))
+            draw_ball(stdscr, ball)
+            # stdscr.addstr(*pos_to_screen(size, ball.position), curses.color_pair(ball.color))
 
         stdscr.refresh()
 
