@@ -8,15 +8,19 @@
     inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { self, nixpkgs, flake-utils, poetry2nix }:
-    flake-utils.lib.eachDefaultSystem (system:
-      let
+  outputs = {
+    self,
+    nixpkgs,
+    flake-utils,
+    poetry2nix,
+  }:
+    flake-utils.lib.eachDefaultSystem (
+      system: let
         pkgs = import nixpkgs {
           inherit system;
-          overlays = [ poetry2nix.overlay ];
+          overlays = [poetry2nix.overlay];
         };
-      in
-      {
+      in {
         packages = {
           default = pkgs.poetry2nix.mkPoetryApplication {
             projectDir = ./.;
@@ -25,7 +29,7 @@
 
         devShell = pkgs.mkShell {
           buildInputs = with pkgs; [
-            (python3.withPackages (ps: with ps; [ poetry pycodestyle pydocstyle ]))
+            (python3.withPackages (ps: with ps; [poetry-core pycodestyle pydocstyle]))
           ];
         };
       }
